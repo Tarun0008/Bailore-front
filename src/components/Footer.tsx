@@ -53,9 +53,9 @@ const Footer = () => {
 
                     <div>
                         <h3 className="text-xl font-playfair font-bold mb-4 text-ivory">Contact</h3>
-                        <p className="font-lora mb-2 text-lightgray">Email: info@balilore.com</p>
-                        <p className="font-lora mb-6 text-lightgray">Bali, Indonesia</p>
-                        <Link to="/submit" className="btn-primary font-lora">Share Your Story</Link>
+                        <p className="font-lora mb-2 text-lightgray"><a href='mailto:info@balilore.com'>Email: info@balilore.com</a></p>
+                        <p className="font-lora mb-6 text-lightgray ">Bali, Indonesia</p>
+                        <Link to="/submit" className="btn-primary-share "><span style={{zIndex:"55"}}>Share Your Story</span></Link>
                     </div>
                 </div>
 
