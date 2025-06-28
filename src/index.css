@@ -114,7 +114,7 @@ html.dark h6 {
     color: #fff;
 }
 
-html.dark .btn-primary {
+html.dark .primary {
     background: linear-gradient(45deg, var(--dark-accent-blue) 0%, var(--dark-accent-purple) 100%);
     box-shadow: 0 4px 20px 0 rgba(106, 106, 255, 0.35);
 }
@@ -124,6 +124,16 @@ html.dark .btn-primary:before {
 }
 
 html.dark .btn-primary:hover {
+    box-shadow: 0 8px 30px 0 rgba(106, 106, 255, 0.5);
+}
+html.dark .btn-primary-share {
+    color: #fff;
+}
+html.dark .btn-primary-share:before {
+    background: linear-gradient(45deg, var(--dark-accent-purple) 0%, var(--dark-accent-blue) 100%);
+}
+
+html.dark .btn-primary-share:hover {
     box-shadow: 0 8px 30px 0 rgba(106, 106, 255, 0.5);
 }
 
@@ -161,7 +171,46 @@ h6 {
     letter-spacing: -0.04em;
     color: var(--accent-color);
 }
+.btn-primary-share {
+    /* background: linear-gradient(45deg, var(--primary-color) 0%, #FF5F8F 100%); */
+    background: #e75480;
+    color: #000;
+    padding: 0.9rem 2.4rem;
+    border-radius: 1rem;
+    font-weight: 700;
+    font-size: 1.15rem;
+    box-shadow: 0 4px 20px 0 rgba(233, 30, 99, 0.25);
+    border: none;
+    transition: all 0.3s ease-in-out;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
 
+.btn-primary-share:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, #FF5F8F 0%, var(--primary-color) 100%);
+    z-index: -6;
+    transition: transform 0.5s ease-in-out;
+    transform: translateX(-100%);
+}
+
+.btn-primary-share:hover:before {
+    transform: translateX(0);
+}
+
+.btn-primary-share:hover {
+    box-shadow: 0 8px 30px 0 rgba(233, 30, 99, 0.35);
+    transform: translateY(-2px);
+}
 .btn-primary {
     background: linear-gradient(45deg, var(--primary-color) 0%, #FF5F8F 100%);
     color: #fff;
@@ -188,7 +237,7 @@ h6 {
     width: 100%;
     height: 100%;
     background: linear-gradient(45deg, #FF5F8F 0%, var(--primary-color) 100%);
-    z-index: -1;
+    z-index: -6;
     transition: transform 0.5s ease-in-out;
     transform: translateX(-100%);
 }
@@ -437,3 +486,4 @@ html.dark .hero-gradient-overlay {
     transform: translateY(-4px);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 }
+
