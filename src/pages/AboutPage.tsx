@@ -39,7 +39,7 @@ const AboutPage = () => {
                             Whether you're a lifelong resident of Bali, a frequent visitor, or someone who has been touched by Bali's magic from afar, we invite you to become part of our growing community. Share your stories, read others' experiences, and help us create a living testament to the beauty and complexity of Balinese culture.
                         </p>
                         <div className="mt-8 text-center">
-                            <Link to="/submit" className="btn-primary font-lora text-lg px-8 py-3">
+                            <Link to="/submit" className="btn-primary-share font-lora text-lg px-8 py-3">
                                 Share Your Story
                             </Link>
                         </div>
