@@ -71,22 +71,24 @@ const StoryCard = ({
                     />
                 )}
                 
-                {/* Enhanced Read More Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-end justify-center pb-4">
                     <Link 
                         to={`/story/${id}`} 
-                        className="btn-primary text-sm px-6 py-3 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 ease-out flex items-center space-x-2"
+                        className="btn-primary  text-sm px-5  py-0 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 ease-out flex flex-row items-center space-x-2"
                         style={{
                             background: 'rgba(255, 255, 255, 0.95)',
                             color: '#E91E63',
                             border: '2px solid rgba(255, 255, 255, 0.8)',
                             backdropFilter: 'blur(10px)',
-                            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
+                            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
+                            display: 'flex',
+                            flexDirection: 'row',
+                            alignItems: 'center',
                         }}
                     >
-                        <span>Read More</span>
+                        <span className='text-sm'>Read More</span>
                         <svg 
-                            className="w-4 h-4 transition-transform group-hover:translate-x-1" 
+                            className="w-3 transition-transform group-hover:translate-x-1" 
                             fill="none" 
                             stroke="currentColor" 
                             viewBox="0 0 24 24"
@@ -96,9 +98,11 @@ const StoryCard = ({
                     </Link>
                 </div>
             </div>
+            {/* <a href={`/story/${id}`}> */}
             <h3 className="font-playfair text-xl font-bold mb-2 text-accent dark:text-dark-text-primary group-hover:text-primary transition-colors">
                 {title}
             </h3>
+            {/* </a> */}
             <p className="font-lora text-gray-700 dark:text-dark-text-secondary mb-4 line-clamp-3">{excerpt}</p>
         </div>
     );
