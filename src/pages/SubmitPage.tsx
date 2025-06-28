@@ -7,7 +7,6 @@ const SubmitPage = () => {
             <div className="section">
                 <div className="container mx-auto px-6">
                     <div className="max-w-3xl mx-auto">
-                        {/* Page Header */}
                         <div className="text-center mb-16 fade-in" style={{ animationDelay: '0.1s' }}>
                             <h1 className="font-playfair text-4xl md:text-5xl lg:text-6xl font-bold text-accent mb-6">
                                 Share Your Bali Story
@@ -17,12 +16,10 @@ const SubmitPage = () => {
                             </p>
                         </div>
 
-                        {/* Form Section */}
                         <div className="card mb-16 fade-in" style={{ animationDelay: '0.3s' }}>
                             <SubmitForm />
                         </div>
 
-                        {/* Submission Guidelines Section */}
                         <div className="card fade-in" style={{ animationDelay: '0.5s' }}>
                             <h3 className="font-playfair text-3xl font-bold mb-8 text-accent">
                                 Submission Guidelines
@@ -75,7 +72,6 @@ const SubmitPage = () => {
                             </div>
                         </div>
 
-                        {/* Raffle Widget Section */}
                         <div className="card fade-in" style={{ animationDelay: '0.7s' }}>
                             <h3 className="font-playfair text-3xl font-bold mb-8 text-accent text-center">
                                 Enter Our Monthly Raffle
