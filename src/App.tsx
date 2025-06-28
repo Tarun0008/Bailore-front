@@ -10,6 +10,10 @@ import Layout from './components/Layout';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 
+
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import './App.css';
 
 interface Story {
@@ -136,6 +140,18 @@ mock.onGet(/\/api\/story\/(\d+)/).reply(config => {
 function App() {
   return (
     <Router>
+       <ToastContainer 
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+      
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
