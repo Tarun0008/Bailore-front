@@ -34,7 +34,6 @@ const HomePage = () => {
                 </div>
             </section>
 
-            {/* Raffle Widget Section */}
             <section className="section bg-ivory dark:bg-dark-background transition-colors duration-500">
                 <div className="container mx-auto px-6">
                     <div className="max-w-2xl mx-auto">
