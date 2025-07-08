@@ -2,7 +2,7 @@
   const userId = 123;
   let tickets = 0;
 
-  const BACKEND_URL = 'http://localhost:3001';
+  const BACKEND_URL = 'https://balilore.onrender.com';
   let currentContainerId = null;
 
   async function getTicketCount() {
@@ -18,7 +18,7 @@
   }
 const proceedToPayment = async () => {
   
-  const res =await fetch('http://localhost:3001/api/create-checkout-session', {
+  const res =await fetch(`${BACKEND_URL}/api/create-checkout-session`, {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({ amount: 100, currency: 'usd' }),
