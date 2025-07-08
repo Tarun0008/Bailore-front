@@ -10,7 +10,6 @@ import Layout from './components/Layout';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 
-
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -28,8 +27,6 @@ interface Story {
   mediaType?: string;
 }
 
-const mock = new MockAdapter(axios, { delayResponse: 300 });
-
 const placeholderImages = [
   'https://i.pinimg.com/736x/19/11/30/191130ad610d879962276fadcf9be3db.jpg',
   'https://i.pinimg.com/736x/ef/4a/83/ef4a83466f6ee70ee7ff6f7d1b3432fa.jpg',
@@ -38,7 +35,7 @@ const placeholderImages = [
 ];
 
 function getRandomPlaceholderImage(): string {
-  return placeholderImages[0];
+  return placeholderImages[Math.floor(Math.random() * placeholderImages.length)];
 }
 
 function getStories(): Story[] {
@@ -50,7 +47,7 @@ function getStories(): Story[] {
       {
         id: 1,
         title: 'The Night of the Fire Dance',
-        body: 'One evening in Uluwatu, I attended a traditional Kecak Fire Dance performance at a cliffside temple....',
+        body: 'One evening in Uluwatu...',
         author: 'Aarav Mehta',
         date: '30/05/2023',
         imageUrl: placeholderImages[0],
@@ -58,7 +55,7 @@ function getStories(): Story[] {
       {
         id: 2,
         title: 'Cooking with Grandma Made',
-        body: 'One of my favorite memories from Bali was joining a cooking class in a small village near Ubud. Our host, Grandma Made, welcomed...',
+        body: 'One of my favorite memories...',
         author: 'Pooja Sharma',
         date: '30/05/2023',
         imageUrl: placeholderImages[1],
@@ -66,7 +63,7 @@ function getStories(): Story[] {
       {
         id: 3,
         title: 'The Sound of Gamelan at Sunset',
-        body: 'On my second day in Bali, I was walking near a temple in Sanur when I heard the rhythmic sound of gamelan music. I followed the...',
+        body: 'On my second day in Bali...',
         author: 'Ishaan Verma',
         date: '30/05/2023',
         imageUrl: placeholderImages[2],
@@ -93,65 +90,62 @@ function saveStories(stories: Story[]): void {
   localStorage.setItem('stories', JSON.stringify(stories));
 }
 
-mock.onPost('/api/submit-lore').reply(config => {
-  const formData = new URLSearchParams(config.data);
-  const stories = getStories();
+// ✅ DEV ONLY: Mock some endpoints but allow /api/create-checkout-session to hit your backend
+if (import.meta.env.MODE === 'development') {
+  const mock = new MockAdapter(axios, { delayResponse: 300 });
 
-  const imageUrl = getRandomPlaceholderImage();
+  mock.onPost('/api/submit-lore').reply(config => {
+    const formData = new URLSearchParams(config.data);
+    const stories = getStories();
+    const imageUrl = getRandomPlaceholderImage();
 
-  const newStory: Story = {
-    id: Date.now(),
-    title: formData.get('title') || '',
-    body: formData.get('body') || '',
-    author: formData.get('name') || '',
-    email: formData.get('email') || undefined,
-    date: new Date().toLocaleDateString(),
-    imageUrl: imageUrl,
-  };
+    const newStory: Story = {
+      id: Date.now(),
+      title: formData.get('title') || '',
+      body: formData.get('body') || '',
+      author: formData.get('name') || '',
+      email: formData.get('email') || undefined,
+      date: new Date().toLocaleDateString(),
+      imageUrl: imageUrl,
+    };
 
-  stories.unshift(newStory);
-  saveStories(stories);
+    stories.unshift(newStory);
+    saveStories(stories);
 
-  return [200, { success: true, story: newStory }];
-});
+    return [200, { success: true, story: newStory }];
+  });
 
-mock.onGet('/api/stories').reply(() => {
-  return [200, { stories: getStories() }];
-});
+  mock.onGet('/api/stories').reply(() => {
+    return [200, { stories: getStories() }];
+  });
 
-mock.onGet(/\/api\/raffle-status/).reply(200, {
-  tickets: 3
-});
+  mock.onGet(/\/api\/story\/(\d+)/).reply(config => {
+    const id = config.url?.split('/').pop();
+    const stories = getStories();
+    const story = stories.find(s => String(s.id) === id);
+    if (story) return [200, { story }];
+    return [404, { error: 'Story not found' }];
+  });
 
-mock.onPost('/api/raffle-entry').reply(200, {
-  success: true,
-  tickets: 4,
-  message: 'Successfully entered raffle!'
-});
+  mock.onGet(/\/api\/raffle-status/).reply(200, {
+    tickets: 3
+  });
 
-mock.onGet(/\/api\/story\/(\d+)/).reply(config => {
-  const id = config.url?.split('/').pop();
-  const stories = getStories();
-  const story = stories.find(s => String(s.id) === id);
-  if (story) return [200, { story }];
-  return [404, { error: 'Story not found' }];
-});
+  mock.onPost('/api/raffle-entry').reply(200, {
+    success: true,
+    tickets: 4,
+    message: 'Successfully entered raffle!'
+  });
+
+  // ✅ ✅ ✅ Pass-through for your real backend Stripe endpoint!
+  mock.onAny('/api/create-checkout-session').passThrough();
+}
 
 function App() {
   return (
     <Router>
-       <ToastContainer 
-        position="top-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
-      
+      <ToastContainer position="top-center" autoClose={5000} />
+
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
@@ -159,13 +153,21 @@ function App() {
           <Route path="stories" element={<StoriesPage />} />
           <Route path="story/:id" element={<StoryDetailPage />} />
           <Route path="submit" element={<SubmitPage />} />
-          <Route path="*" element={
-            <div className="container mx-auto px-4 py-16 text-center">
-              <h1 className="text-3xl font-bold mb-4">Page Not Found</h1>
-              <p className="mb-8">The page you're looking for doesn't exist.</p>
-              <a href="/" className="bg-[#E91E63] text-white py-2 px-4 rounded-md hover:bg-opacity-90 transition-all duration-300">Go Home</a>
-            </div>
-          } />
+          <Route
+            path="*"
+            element={
+              <div className="container mx-auto px-4 py-16 text-center">
+                <h1 className="text-3xl font-bold mb-4">Page Not Found</h1>
+                <p className="mb-8">The page you're looking for doesn't exist.</p>
+                <a
+                  href="/"
+                  className="bg-[#E91E63] text-white py-2 px-4 rounded-md hover:bg-opacity-90 transition-all duration-300"
+                >
+                  Go Home
+                </a>
+              </div>
+            }
+          />
         </Route>
       </Routes>
     </Router>
