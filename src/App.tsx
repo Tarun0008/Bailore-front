@@ -91,10 +91,10 @@ function saveStories(stories: Story[]): void {
 }
 
 // ✅ DEV ONLY: Mock some endpoints but allow /api/create-checkout-session to hit your backend
-if (import.meta.env.MODE === 'development') {
-  const mock = new MockAdapter(axios, { delayResponse: 300 });
+// if (import.meta.env.MODE === 'development') {
+const mock = new MockAdapter(axios, { delayResponse: 300 });
 
-  mock.onPost('/api/submit-lore').reply(config => {
+mock.onPost('/api/submit-lore').reply(config => {
     const formData = new URLSearchParams(config.data);
     const stories = getStories();
     const imageUrl = getRandomPlaceholderImage();
@@ -139,7 +139,7 @@ if (import.meta.env.MODE === 'development') {
 
   // ✅ ✅ ✅ Pass-through for your real backend Stripe endpoint!
   mock.onAny('/api/create-checkout-session').passThrough();
-}
+
 
 function App() {
   return (
